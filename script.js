@@ -35,6 +35,16 @@ function onPress(val) {
             cleared = false;
         }
         display.textContent += val;
+    } else if (val === '.') {
+        insertDecimal();
     }
 }
 
+// Adds decimal to display, if it is valid
+function insertDecimal() {
+    if (display.textContent.includes('.')) {
+        return;
+    }
+    display.textContent += '.';
+    cleared = false;
+}
