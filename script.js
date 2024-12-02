@@ -39,10 +39,11 @@ function onPress(val) {
         insertDecimal();
     } else if (val === 'clear') {
         clearEntry();
+    } else if (val === 'sign') {
+        toggleSign();
     }
 }
 
-// Adds decimal to display, if it is valid
 function insertDecimal() {
     if (display.textContent.includes('.')) {
         return;
@@ -54,4 +55,15 @@ function insertDecimal() {
 function clearEntry() {
     cleared = true;
     display.textContent = 0;
+}
+
+function toggleSign() {
+    if (cleared) {
+        return;
+    }
+    if (display.textContent.charAt(0) === '-') {
+        display.textContent = display.textContent.slice(1);
+    } else {
+        display.textContent = "-" + display.textContent;
+    }
 }
