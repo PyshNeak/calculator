@@ -23,15 +23,21 @@
 .buttons {
     margin: 10px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-content: stretch;
+    flex: 1;
+}
+
+.button-row {
+    display: flex;
     flex: 1;
 }
 
 button {
     flex: 1 1 25%;
+    margin: 5px;
 }
 
 button.wide {
-    flex-basis: 50%;
+    flex-basis: 54%;
 }
