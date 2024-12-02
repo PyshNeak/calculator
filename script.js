@@ -41,6 +41,8 @@ function onPress(val) {
         clearEntry();
     } else if (val === 'sign') {
         toggleSign();
+    } else if (val === 'percentage') {
+        showPercentage();
     }
 }
 
@@ -66,4 +68,9 @@ function toggleSign() {
     } else {
         display.textContent = "-" + display.textContent;
     }
+}
+
+function showPercentage() {
+    const val = +display.textContent;
+    display.textContent = val / 100;
 }
