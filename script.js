@@ -37,6 +37,8 @@ function onPress(val) {
         display.textContent += val;
     } else if (val === '.') {
         insertDecimal();
+    } else if (val === 'clear') {
+        clearEntry();
     }
 }
 
@@ -47,4 +49,9 @@ function insertDecimal() {
     }
     display.textContent += '.';
     cleared = false;
+}
+
+function clearEntry() {
+    cleared = true;
+    display.textContent = 0;
 }
