@@ -1,22 +1,11 @@
-function add(a, b) {
-    return a + b;
-}
-
-function subtract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-
-const numeric = '1234567890';
-
 const buttonContainer = document.querySelector('.buttons');
+const display = document.querySelector('.display p');
+
+let v1 = null;
+let v2 = null;
+let o1 = null;
+let cleared = true;
+
 buttonContainer.addEventListener('click', (e) => {
     const btn = e.target;
     if (btn.tagName === 'BUTTON') {
@@ -24,25 +13,18 @@ buttonContainer.addEventListener('click', (e) => {
     }
 });
 
-
-let cleared = true;
-const display = document.querySelector('.display p');
 function onPress(val) {
 
-    if (numeric.includes(val)) {
-        if (cleared) {
-            display.textContent = '';
-            cleared = false;
-        }
-        display.textContent += val;
+    if (/\d/.test(val)) {
+        runDigit(val);
     } else if (val === '.') {
-        insertDecimal();
+        runDecimal();
     } else if (val === 'clear') {
-        clearEntry();
+        runClear();
     } else if (val === 'sign') {
-        toggleSign();
+        runSign();
     } else if (val === 'percentage') {
-        showPercentage();
+        runPercentage();
     } else if (val === 'equals') {
         runEquals();
     } else {
@@ -50,9 +32,48 @@ function onPress(val) {
     }
 }
 
-let v1 = null;
-let v2 = null;
-let o1 = null;
+function runDigit(val) {
+    if (cleared) {
+        display.textContent = '';
+        cleared = false;
+    }
+    display.textContent += val;
+}
+
+function runDecimal() {
+    if (cleared) {
+        display.textContent = '0.';
+    } else if (display.textContent.includes('.')) {
+        return;
+    } else {
+        display.textContent += '.';
+    }
+    cleared = false;
+}
+
+function runClear() {
+    v1 = null;
+    v2 = null;
+    o1 = null;
+    cleared = true;
+    display.textContent = 0;
+}
+
+function runSign() {
+    if (cleared) {
+        return;
+    }
+    if (display.textContent.charAt(0) === '-') {
+        display.textContent = display.textContent.slice(1);
+    } else {
+        display.textContent = "-" + display.textContent;
+    }
+}
+
+function runPercentage() {
+    const val = +display.textContent;
+    display.textContent = val / 100;
+}
 
 function runEquals() {
     if (v1 !== null && o1 !== null) {
@@ -86,40 +107,4 @@ function submitFunc() {
     }
     display.textContent = res;
     v1 = display.textContent;
-}
-
-
-function insertDecimal() {
-    if (cleared) {
-        display.textContent = '0.';
-    } else if (display.textContent.includes('.')) {
-        return;
-    } else {
-        display.textContent += '.';
-    }
-    cleared = false;
-}
-
-function clearEntry() {
-    v1 = null;
-    v2 = null;
-    o1 = null;
-    cleared = true;
-    display.textContent = 0;
-}
-
-function toggleSign() {
-    if (cleared) {
-        return;
-    }
-    if (display.textContent.charAt(0) === '-') {
-        display.textContent = display.textContent.slice(1);
-    } else {
-        display.textContent = "-" + display.textContent;
-    }
-}
-
-function showPercentage() {
-    const val = +display.textContent;
-    display.textContent = val / 100;
 }
