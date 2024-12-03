@@ -43,18 +43,67 @@ function onPress(val) {
         toggleSign();
     } else if (val === 'percentage') {
         showPercentage();
+    } else if (val === 'equals') {
+        runEquals();
+    } else {
+        runOperator(val);
     }
 }
 
-function insertDecimal() {
-    if (display.textContent.includes('.')) {
-        return;
+let v1 = null;
+let v2 = null;
+let o1 = null;
+
+function runEquals() {
+    if (v1 !== null && o1 !== null) {
+        submitFunc();
+        o1 = null;
     }
-    display.textContent += '.';
+}
+
+function runOperator(val) {
+    cleared = true
+    if (o1 === null) {
+        v1 = display.textContent;
+        o1 = val;
+    } else {
+        submitFunc();
+        o1 = val;
+    }
+}
+
+function submitFunc() {
+    v2 = display.textContent;
+    let res;
+    if (o1 === 'add') {
+        res = +v1 + +v2;
+    } else if (o1 === 'subtract') {
+        res = +v1 - +v2;
+    } else if (o1 === 'divide') {
+        res = +v1 / +v2;
+    } else if (o1 === 'multiply') {
+        res = +v1 * +v2;
+    }
+    display.textContent = res;
+    v1 = display.textContent;
+}
+
+
+function insertDecimal() {
+    if (cleared) {
+        display.textContent = '0.';
+    } else if (display.textContent.includes('.')) {
+        return;
+    } else {
+        display.textContent += '.';
+    }
     cleared = false;
 }
 
 function clearEntry() {
+    v1 = null;
+    v2 = null;
+    o1 = null;
     cleared = true;
     display.textContent = 0;
 }
